@@ -1,7 +1,7 @@
-# MMM-DailyDilbert
-A module for MagicMirror<sup>2</sup> that displays the daily Dilbert strip.
+# MMM-DailyGarfield
+Based on andrecarluccis MMM-DailyDilbert module, this is a module for MagicMirror<sup>2</sup> that displays the daily Garfield strip.
 
-<img src="dilbert.png"></img>
+<img src="garfield.png"></img>
 
 ## Dependencies
   * A [MagicMirror<sup>2</sup>](https://github.com/MichMich/MagicMirror) installation
@@ -28,4 +28,5 @@ A module for MagicMirror<sup>2</sup> that displays the daily Dilbert strip.
 | --- | --- |
 | `updateInterval` | Set to desired update interval (in ms), default is `3600000` (10 hours). |
 
-Heavily inspired by the awesome MagicMirror plugin [DailyXKCD](https://github.com/Blastitt/DailyXKCD).
+Based on andrecarluccis [MMM-DailyDilbert](https://github.com/andrecarlucci/MMM-DailyDilbert), which was heavily inspired by [DailyXKCD](https://github.com/Blastitt/DailyXKCD).
+Many thanks to both of them for their great modules!
