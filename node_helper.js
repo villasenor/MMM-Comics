@@ -10,17 +10,17 @@ module.exports = NodeHelper.create({
 	
 	socketNotificationReceived: function(notification, payload) {
 		var self = this;
-		console.log("Dilbert -> Notification: " + notification + " Payload: " + payload);
+		console.log("Garfield -> Notification: " + notification + " Payload: " + payload);
 		
 		if(notification === "GET_COMIC") {
 			
-			var url = "http://dilbert.com";
+			var url = "https://garfield.com/comic";
 			
-			console.log('-> Dibert request');
+			console.log("-> Garfield request");
 			request(url, function (error, response, body) {
 				var $ = cheerio.load(body);
-				var src = $(".img-comic").attr('src');
-				console.log('Dibert -> ' + src);
+				var src = $(".img-responsive").attr('src');
+				console.log("Garfield -> " + src);
 				self.sendSocketNotification("COMIC", {
 					img : src
 				});
