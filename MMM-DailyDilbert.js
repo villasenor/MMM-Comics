@@ -2,7 +2,10 @@ Module.register("MMM-DailyDilbert", {
 
     // Default module config.
     defaults: {
-        updateInterval : 10000 * 60 * 60, // 10 hours
+	comic: "nichtlustig",     // Choose between  ["dilbert", "xkcd", "garfield", "nichtlustig"]
+        updateInterval : 10000 * 60, // 1 hours
+        random: false,             // choose random comic each time (include an option to show daily comic at specific time!)
+	timeForDaily: 7
     },
 
     start: function() {
@@ -14,7 +17,7 @@ Module.register("MMM-DailyDilbert", {
         
         self = this;
         if(self.config.updateInterval < 60000) {
-			self.config.updateInterval = 60000;
+			self.config.updateInterval = 60000;                    //IS THIS NEEDED?
 		}			
 		
         setInterval(function() {
@@ -40,7 +43,7 @@ Module.register("MMM-DailyDilbert", {
 
     socketNotificationReceived: function(notification, payload) {
         if (notification === "COMIC") {
-            Log.info('Dilbert url return: ' + payload.img);
+            Log.info('Got comic from return: ' + payload.img);
             this.dailyComic = payload.img;
             this.updateDom(1000);
         }
