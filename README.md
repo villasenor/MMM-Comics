@@ -1,5 +1,5 @@
 # MMM-DailyGarfield
-Based on andrecarluccis MMM-DailyDilbert module, this is a module for MagicMirror<sup>2</sup> that displays the daily Garfield strip.
+Based on andrecarluccis MMM-DailyDilbert module, this is a module for MagicMirror<sup>2</sup> that displays daily or random Comic Strips from famous comics.
 
 <img src="garfield.png"></img>
 
@@ -11,14 +11,14 @@ Based on andrecarluccis MMM-DailyDilbert module, this is a module for MagicMirro
   1. Clone this repo into your `modules` directory.
   2. Create an entry in your `config.js` file to tell this module where to display on screen.
   3. Run `npm install -p cheerio`
-  
+
  **Example:**
 ```
  {
-    module: 'MMM-DailyDilbert',
+  module: 'MMM-DailyDilbert',
 	position: 'bottom_bar',
 	config: {
-		updateInterval : 36000000
+    updateInterval : 36000000
 	}
  },
 ```

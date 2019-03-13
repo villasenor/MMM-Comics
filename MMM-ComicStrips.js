@@ -2,10 +2,13 @@ Module.register("MMM-DailyDilbert", {
 
     // Default module config.
     defaults: {
-	comic: "nichtlustig",     // Choose between  ["dilbert", "xkcd", "garfield", "nichtlustig"]
-        updateInterval : 10000 * 60, // 1 hours
-        random: false,             // choose random comic each time (include an option to show daily comic at specific time!)
-	timeForDaily: 7
+      comic: "ruthe",         // Choose between  ["dilbert", "xkcd", "garfield", "nichtlustig", "ruthe", "dilbert_de"]
+      updateInterval : 1000 * 60 * 1,  // 1 hour
+      random: false,                // choose random comic each time (include an option to show daily comic at specific time!)
+      timeForDaily: 7,
+      coloredImage: false,
+      comicWidth: 500,
+      timeForDaily: [7, 23]
     },
 
     start: function() {
@@ -14,12 +17,12 @@ Module.register("MMM-DailyDilbert", {
 
         this.dailyComic = "";
         this.getComic();
-        
+
         self = this;
-        if(self.config.updateInterval < 60000) {
-			self.config.updateInterval = 60000;                    //IS THIS NEEDED?
-		}			
-		
+        /*if(self.config.updateInterval < 60000) {
+		        self.config.updateInterval = 60000;                    //IS THIS NEEDED?
+        }*/
+
         setInterval(function() {
             self.getComic();
         }, self.config.updateInterval);
@@ -31,7 +34,7 @@ Module.register("MMM-DailyDilbert", {
     },
 
     getStyles: function() {
-        return ["dilbert.css"];
+        return ["comic.css"];
     },
 
     getComic: function() {
@@ -43,8 +46,8 @@ Module.register("MMM-DailyDilbert", {
 
     socketNotificationReceived: function(notification, payload) {
         if (notification === "COMIC") {
-            Log.info('Got comic from return: ' + payload.img);
             this.dailyComic = payload.img;
+            console.log("Comic source: "+this.dailyComic)
             this.updateDom(1000);
         }
     },
@@ -55,15 +58,20 @@ Module.register("MMM-DailyDilbert", {
     // Override dom generator.
     getDom: function() {
         var wrapper = document.createElement("div");
-
         var comicWrapper = document.createElement("div");
-        comicWrapper.className = "dilbert-container";
-    
+        comicWrapper.className = "comic-container";
         var img = document.createElement("img");
-        img.id = "dilbert-content";
+        img.id = "comic-content";
         img.src = this.dailyComic;
-		img.classList.add('dilbert-image');
-		comicWrapper.appendChild(img);
+        if (this.config.comicWidth) {
+          img.style.width = this.config.comicWidth
+        };
+      	if (this.config.coloredImage) {
+      		img.className = 'colored-image';
+      	} else {
+      		img.className = 'bw-image';
+      	};
+	      comicWrapper.appendChild(img);
         wrapper.appendChild(comicWrapper);
         return wrapper;
     }

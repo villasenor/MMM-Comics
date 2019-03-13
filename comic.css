@@ -1,5 +1,5 @@
 /* The basic container */
-.dilbert-container {
+.comic-container {
     overflow: hidden;
 
     /* To make the height of the container exact. */
@@ -8,7 +8,7 @@
     box-sizing: border-box;
 }
 
-#dilbert-content {
+#comic-content {
   white-space: nowrap;
   position: relative;
   overflow: hidden;    /* Required to make ellipsis work */
@@ -22,5 +22,12 @@
 }
 
 .bw-image {
-	-webkit-filter: contrast(10) grayscale(1) invert(1);
+  -webkit-filter: contrast(10) grayscale(1) invert(1);
+  filter: contrast(10) grayscale(1) invert(1);
+
+}
+
+#msg {
+  line-height: 100px;
+  vertical-align: top;
 }
