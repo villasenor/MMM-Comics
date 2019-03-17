@@ -1,11 +1,10 @@
-Module.register("MMM-DailyDilbert", {
+Module.register("MMM-ComicStrips", {
 
     // Default module config.
     defaults: {
       comic: "ruthe",         // Choose between  ["dilbert", "xkcd", "garfield", "nichtlustig", "ruthe", "dilbert_de"]
       updateInterval : 1000 * 60 * 1,  // 1 hour
       random: false,                // choose random comic each time (include an option to show daily comic at specific time!)
-      timeForDaily: 7,
       coloredImage: false,
       comicWidth: 500,
       timeForDaily: [7, 23]
@@ -47,7 +46,7 @@ Module.register("MMM-DailyDilbert", {
     socketNotificationReceived: function(notification, payload) {
         if (notification === "COMIC") {
             this.dailyComic = payload.img;
-            console.log("Comic source: "+this.dailyComic)
+            console.log("Comic source: "+this.dailyComic);
             this.updateDom(1000);
         }
     },
@@ -64,8 +63,8 @@ Module.register("MMM-DailyDilbert", {
         img.id = "comic-content";
         img.src = this.dailyComic;
         if (this.config.comicWidth) {
-          img.style.width = this.config.comicWidth
-        };
+          img.style.width = this.config.comicWidth;
+        }
       	if (this.config.coloredImage) {
       		img.className = 'colored-image';
       	} else {
