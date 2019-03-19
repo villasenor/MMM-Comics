@@ -33,8 +33,10 @@ Based on andrecarluccis MMM-DailyDilbert module, this is a module for MagicMirro
 | `comic` | "dilbert" | Choose between the currently available comics: ["dilbert", "dilbert_de", "xkcd", "peanuts", "garfield", "nichtlustig", "ruthe"] |
 | `updateInterval` | 1800000 | Set to desired update interval (in ms), default is `1800000` (30 minutes). |
 | `coloredImage` | false | Colored or black&white (inverted) image |
-| `timeForDaily` | [7, 9] | Time frame to show the most recent (or daily) comic. This woudl equate to 7 - 9 in the morning. Currently ONLY 24h time format!! For any other time you will receive a random comic |
+| `timeForDaily` | [7, 9] | Time frame to show the most recent (or daily) comic. This would equate to 7 - 9 in the morning. Currently only 24h time formatting!! For any other time you will get a random comic if possible. (Dilbert_de does not provide radndom comics yet) |
 
 
-Based on andrecarluccis [MMM-DailyDilbert](https://github.com/andrecarlucci/MMM-DailyDilbert), which was heavily inspired by [DailyXKCD](https://github.com/Blastitt/DailyXKCD).
+
+
+This module is based on andrecarluccis [MMM-DailyDilbert](https://github.com/andrecarlucci/MMM-DailyDilbert), which was heavily inspired by [DailyXKCD](https://github.com/Blastitt/DailyXKCD).
 Many thanks to both of them for their great modules!
