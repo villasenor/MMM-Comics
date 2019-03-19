@@ -2,7 +2,7 @@ Module.register("MMM-ComicStrips", {
 
     // Default module config.
     defaults: {
-      comic: "ruthe",         // Choose between  ["dilbert", "xkcd", "garfield", "nichtlustig", "ruthe", "dilbert_de"]
+      comic: "dilbert",         // Choose between  ["dilbert", "xkcd", "garfield", "peanuts", "nichtlustig", "ruthe", "dilbert_de"]
       updateInterval : 1000 * 60 * 1,  // 1 hour
       random: false,                // choose random comic each time (include an option to show daily comic at specific time!)
       coloredImage: false,
@@ -18,10 +18,7 @@ Module.register("MMM-ComicStrips", {
         this.getComic();
 
         self = this;
-        /*if(self.config.updateInterval < 60000) {
-		        self.config.updateInterval = 60000;                    //IS THIS NEEDED?
-        }*/
-
+        
         setInterval(function() {
             self.getComic();
         }, self.config.updateInterval);
@@ -37,7 +34,7 @@ Module.register("MMM-ComicStrips", {
     },
 
     getComic: function() {
-        Log.info("[MMM-ComicStrips] Getting comic.");
+        Log.info("[MMM-Comics] Getting comic.");
         this.sendSocketNotification("GET_COMIC", {
             config: this.config
         });
