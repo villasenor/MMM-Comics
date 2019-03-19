@@ -37,7 +37,7 @@ Module.register("MMM-ComicStrips", {
     },
 
     getComic: function() {
-        Log.info("Dilbert: Getting comic.");
+        Log.info("[MMM-ComicStrips] Getting comic.");
         this.sendSocketNotification("GET_COMIC", {
             config: this.config
         });

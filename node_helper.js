@@ -1,3 +1,7 @@
+/****************
+Node helper for MMM-ComicStrips module
+****************/
+
 var request = require("request");
 var NodeHelper = require("node_helper");
 var cheerio = require("cheerio");
@@ -115,38 +119,41 @@ module.exports = NodeHelper.create({
 	},
 
 	getXkcd: function (random) {
-		var url = "http://xkcd.com/";
-		request(url + "info.0.json", function (error, response, body) {
+		var self = this;
+		var baseUrl = "http://xkcd.com/";
+		request(baseUrl + "info.0.json", function (error, response, body) {
 			if (!error && response.statusCode == 200) {
 				var comic = JSON.parse(body);
 				var current = comic.num;
+				console.log ("Current: "+current);
+
+				var date = new Date();
+				var dayOfWeek = date.getDay();
+				var url = "http://xkcd.com/"
+
+				if (!random && [1,3,5].includes(dayOfWeek)) {
+					url = url + current;
+					console.log("Its MonWedFriday! Showing current xkcd comic!");
+				} else {
+					var randomNumber = Math.floor((Math.random() * current) + 1);
+					// use "randomNumber = 1732;" to test with long comic
+					url = "http://xkcd.com/" + randomNumber;
+					console.log("Parsing random comic: "+randomNumber)
+				}
+
+				request(url, function (error, response, body) {
+					if (!error && response.statusCode == 200) {
+						var $ = cheerio.load(body);
+						var src = $("#comic img").attr('src');
+						console.log("xkcd -> " + src);
+						self.sendSocketNotification("COMIC", {img : src});
+					} else {
+						console.log("Error "+error+": Comic could not be fetched");
+					}
+					return;
+				});
 			}
 		});
 
-		var date = new Date();
-		var dayOfWeek = date.getDay();
-
-		if (!random && [1,3,5].includes(dayOfWeek)) {
-			url = url + current;
-			console.log("Its Monwedfriday! Showing current xkcd comic!");
-		} else {
-			console.log("Parsing random comic")
-			var randomNumber = Math.floor((Math.random() * current) + 1);
-			// use "randomNumber = 1732;" to test with long comic
-			url = "http://xkcd.com/" + randomNumber;
-		}
-		console.log(url);
-
-		request(url, function (error, response, body) {
-			if (!error && response.statusCode == 200) {
-				var $ = cheerio.load(body);
-				var src = $("#comic").attr('src');
-				console.log("xkcd -> " + src);
-				self.sendSocketNotification("COMIC", {img : src});
-			} else {
-				console.log("Error "+error+": Comic could not be fetched");
-			}
-			return;
-		});
 	},
 });
