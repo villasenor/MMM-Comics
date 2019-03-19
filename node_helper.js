@@ -37,6 +37,9 @@ module.exports = NodeHelper.create({
 				case "xkcd":
 					this.getXkcd(random);
 					break;
+				case "peanuts":
+					this.getPeanuts(random);
+					break;
 				case "nichtlustig":
 					this.getNichtLustig(random);
 					break;
@@ -46,7 +49,6 @@ module.exports = NodeHelper.create({
 				default:
 					console.log("Comic not found!");
 			}
-			//console.log("Comic " + comic + " was chosen")
 		}
 	},
 
@@ -56,13 +58,33 @@ module.exports = NodeHelper.create({
 		console.log("-> Garfield request");
 		var start = new Date (1979, 1, 1);
     		var end = new Date();
-		var randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-		url += moment(randomDate).format("YYYY/MM/DD") + "/";
+		var comicDate = (random) ? new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())) : end;
+		url += moment(comicDate).format("YYYY/MM/DD") + "/";
+		console.log("Trying url: "+url);
+		request(url, function (error, response, body) {
+			var $ = cheerio.load(body);
+			var src = $(".img-fluid").attr('srcset');
+			console.log("Garfield -> " + src);
+			self.sendSocketNotification("COMIC", {
+				img : src
+			});
+		});
+		return;
+	},
+
+	getPeanuts: function (random) {
+		var self = this;
+		var url = "https://www.gocomics.com/peanuts/";
+		console.log("-> Peanuts request");
+		var start = new Date (1952, 1, 1);
+    		var end = new Date();
+		var comicDate = (random) ? new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())) : end;
+		url += moment(comicDate).format("YYYY/MM/DD") + "/";
 		console.log("Trying url: "+url);
 		request(url, function (error, response, body) {
 			var $ = cheerio.load(body);
 			var src = $(".img-responsive").attr('src');
-			console.log("Garfield -> " + src);
+			console.log("Peanuts -> " + src);
 			self.sendSocketNotification("COMIC", {
 				img : src
 			});
