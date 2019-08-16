@@ -6,8 +6,9 @@ Module.register("MMM-ComicStrips", {
       updateInterval : 1000 * 60 * 1,  // 1 hour
       random: false,                // choose random comic each time (include an option to show daily comic at specific time!)
       coloredImage: false,
-      comicWidth: 500,
-      timeForDaily: [7, 23]
+      comicWidth: 300,
+      timeForDaily: [7, 23],
+      debug: true
     },
 
     start: function() {
@@ -18,7 +19,7 @@ Module.register("MMM-ComicStrips", {
         this.getComic();
 
         self = this;
-        
+
         setInterval(function() {
             self.getComic();
         }, self.config.updateInterval);
@@ -60,7 +61,7 @@ Module.register("MMM-ComicStrips", {
         img.id = "comic-content";
         img.src = this.dailyComic;
         if (this.config.comicWidth) {
-          img.style.width = this.config.comicWidth;
+          img.width = this.config.comicWidth;
         }
       	if (this.config.coloredImage) {
       		img.className = 'colored-image';
