@@ -6,9 +6,9 @@ Module.register("MMM-ComicStrips", {
       updateInterval : 1000 * 60 * 1,  // 1 hour
       random: false,                // choose random comic each time (include an option to show daily comic at specific time!)
       coloredImage: false,
-      comicWidth: 300,
+      comicWidth: 500,
       timeForDaily: [7, 23],
-      debug: true
+      debug: false
     },
 
     start: function() {
