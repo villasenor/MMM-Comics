@@ -85,7 +85,7 @@ module.exports = NodeHelper.create({
 		this.log("Trying url: "+url);
 		request(url, function (error, response, body) {
 			var $ = cheerio.load(body);
-			var src = $(".img-fluid").attr('srcset');
+			var src = $(".item-comic-image .img-fluid").attr('srcset');
 			self.log("Peanuts -> " + src);
 			self.sendSocketNotification("COMIC", {
 				img : src

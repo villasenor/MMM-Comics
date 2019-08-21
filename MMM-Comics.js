@@ -1,13 +1,13 @@
-Module.register("MMM-ComicStrips", {
+Module.register("MMM-Comics", {
 
     // Default module config.
     defaults: {
       comic: "dilbert",         // Choose between  ["dilbert", "xkcd", "garfield", "peanuts", "nichtlustig", "ruthe", "dilbert_de"]
       updateInterval : 1000 * 60 * 1,  // 1 hour
-      random: false,                // choose random comic each time (include an option to show daily comic at specific time!)
+      random: false,                // choose random comic  (you can limit for the daily comic using the timeForDaily method)
       coloredImage: false,
       comicWidth: 500,
-      timeForDaily: [7, 23],
+      timeForDaily: [6, 8],      //place start and end hour here, divided by comma, e.g. [6, 8], please use 24h format!
       debug: false
     },
 
@@ -31,7 +31,7 @@ Module.register("MMM-ComicStrips", {
     },
 
     getStyles: function() {
-        return ["comic.css"];
+        return ["MMM-Comics.css"];
     },
 
     getComic: function() {
