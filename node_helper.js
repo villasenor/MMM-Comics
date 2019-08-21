@@ -1,5 +1,5 @@
 /****************
-Node helper for MMM-ComicStrips module
+Node helper for MMM-Comics module
 ****************/
 
 var request = require("request");
@@ -9,22 +9,24 @@ var moment = require("moment");
 
 module.exports = NodeHelper.create({
 
+  config: [],
+
 	start: function () {
 		console.log("Starting node helper: " + this.name);
 	},
 
 	socketNotificationReceived: function (notification, payload) {
-		var self = this;
+		this.config = payload.config;
 		var comic = payload.config.comic;
 		var random = payload.config.random;
 		var dailyTime = payload.config.timeForDaily;
 		var dailyStart = moment(dailyTime[0], "k").format();
-		console.log(dailyStart);
+		this.log(dailyStart);
 		var dailyEnd = moment(dailyTime[1], "k").format();
-		console.log(dailyEnd);
+		this.log(dailyEnd);
 		if (moment().isBetween(dailyStart, dailyEnd)) { random = false };
 
-		console.log("Comic -> Notification: " + notification + " Payload: " + comic);
+		this.log("Notification: " + notification + " Payload: " + comic);
 
 		if (notification === "GET_COMIC") {
 
@@ -51,7 +53,7 @@ module.exports = NodeHelper.create({
 					this.getRuthe(random);
 					break;
 				default:
-					console.log("Comic not found!");
+					this.log("Comic not found!");
 			}
 		}
 	},
@@ -59,16 +61,16 @@ module.exports = NodeHelper.create({
 	getGarfield: function (random) {
 		var self = this;
 		var url = "https://garfield.com/comic/";
-		console.log("-> Garfield request");
+		this.log("-> Garfield request");
 		var start = new Date (1979, 1, 1);
-    		var end = new Date();
+    var end = new Date();
 		var comicDate = (random) ? new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())) : end;
 		url += moment(comicDate).format("YYYY/MM/DD") + "/";
-		console.log("Trying url: "+url);
+		this.log("Trying url: "+url);
 		request(url, function (error, response, body) {
 			var $ = cheerio.load(body);
 			var src = $(".img-responsive").attr('src');
-			console.log("Garfield -> " + src);
+			self.log("Garfield -> " + src);
 			self.sendSocketNotification("COMIC", {
 				img : src
 			});
@@ -79,16 +81,16 @@ module.exports = NodeHelper.create({
 	getPeanuts: function (random) {
 		var self = this;
 		var url = "https://www.gocomics.com/peanuts/";
-		console.log("-> Peanuts request");
+		this.log("-> Peanuts request");
 		var start = new Date (1952, 1, 1);
     		var end = new Date();
 		var comicDate = (random) ? new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())) : end;
 		url += moment(comicDate).format("YYYY/MM/DD") + "/";
-		console.log("Trying url: "+url);
+		this.log("Trying url: "+url);
 		request(url, function (error, response, body) {
 			var $ = cheerio.load(body);
-			var src = $(".img-fluid").attr('srcset');
-			console.log("Peanuts -> " + src);
+			var src = $(".item-comic-image .img-fluid").attr('srcset');
+			self.log("Peanuts -> " + src);
 			self.sendSocketNotification("COMIC", {
 				img : src
 			});
@@ -99,19 +101,19 @@ module.exports = NodeHelper.create({
 	getDilbert: function (lang, random) {
 		var self = this;
 		var url = (lang == "en") ? "https://dilbert.com/" : "https://www.ingenieur.de/unterhaltung/dilbert/" ;
-		console.log("-> Dilbert request");
+		this.log("-> Dilbert request");
 		if (random && (lang == "en")) {
 			var start = new Date (2000, 1, 1);
 			var end = new Date();
   			var randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-			//console.log("Random Date: "+randomDate);
+			  this.log("Random Date: "+randomDate);
 			url += moment(randomDate).format("YYYY-MM-DD") + "/";
 		}
 		request(url, function (error, response, body) {
 			var $ = cheerio.load(body);
 			var imgClass = (lang == "en") ? ".img-comic" : ".size-large"
 			var src = $(imgClass).attr('src');
-			console.log("Dilbert -> " + src);
+			self.log("Dilbert -> " + src);
 			self.sendSocketNotification("COMIC", {
 				img : src
 			});
@@ -122,7 +124,7 @@ module.exports = NodeHelper.create({
 	getRuthe: function (random) {
 		var self = this;
 		var url = "http://ruthe.de/cartoon/";
-		console.log("-> Ruthe request");
+		this.log("-> Ruthe request");
 		if (random) {
 			var randomNr = Math.floor((Math.random() * 3233) + 1);
 			url += randomNr + "/datum/asc/"
@@ -132,7 +134,7 @@ module.exports = NodeHelper.create({
 		request(url, function (error, response, body) {
 			var $ = cheerio.load(body);
 			var src = $("img").attr('src');
-			console.log("Ruthe -> " + src);
+			self.log("Ruthe -> " + src);
 			self.sendSocketNotification("COMIC", {
 			  img : "http://ruthe.de" + src
 		  });
@@ -153,29 +155,34 @@ module.exports = NodeHelper.create({
 				var dayOfWeek = date.getDay();
 				var url = "http://xkcd.com/"
 
-				if (!random && [1,3,5].includes(dayOfWeek)) {
-					url = url + current;
-					console.log("Its MonWedFriday! Showing current xkcd comic!");
-				} else {
-					var randomNumber = Math.floor((Math.random() * current) + 1);
-					// use "randomNumber = 1732;" to test with long comic
-					url = "http://xkcd.com/" + randomNumber;
-					console.log("Parsing random comic: "+randomNumber)
-				}
+		if (!random && [1,3,5].includes(dayOfWeek)) {
+			url = url + current;
+			this.log("Its Monwedfriday! Showing current xkcd comic!");
+		} else {
+			this.log("Parsing random comic")
+			var randomNumber = Math.floor((Math.random() * current) + 1);
+			// use "randomNumber = 1732;" to test with long comic
+			url = "http://xkcd.com/" + randomNumber;
+		}
+		this.log(url);
 
-				request(url, function (error, response, body) {
-					if (!error && response.statusCode == 200) {
-						var $ = cheerio.load(body);
-						var src = $("#comic img").attr('src');
-						console.log("xkcd -> " + src);
-						self.sendSocketNotification("COMIC", {img : src});
-					} else {
-						console.log("Error "+error+": Comic could not be fetched");
-					}
-					return;
-				});
+		request(url, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				var $ = cheerio.load(body);
+				var src = $("#comic").attr('src');
+				self.log("xkcd -> " + src);
+				self.sendSocketNotification("COMIC", {img : src});
+			} else {
+				self.log("Error "+error+": Comic could not be fetched");
 			}
 		});
 
+	},
+
+
+	  log: function (msg) {
+        if (this.config && this.config.debug) {
+          console.log(this.name + ":", JSON.stringify(msg));
+    }
 	},
 });

@@ -1,0 +1,22 @@
+{
+  "name": "mmm-comics",
+  "version": "1.0.0",
+  "description": "Based on andrecarluccis MMM-DailyDilbert module, this is a module for MagicMirror<sup>2</sup> that displays daily or random Comic Strips from famous comics.",
+  "main": "MMM-Comics.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lavolp3/MMM-Comics.git"
+  },
+  "author": "Dirk Kovert",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lavolp3/MMM-Comics/issues"
+  },
+  "homepage": "https://github.com/lavolp3/MMM-Comics#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3"
+  }
+}
