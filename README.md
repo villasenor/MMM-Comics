@@ -1,5 +1,15 @@
 # MMM-ComicStrips
 Based on andrecarluccis MMM-DailyDilbert module, this is a module for MagicMirror<sup>2</sup> that displays daily or random Comic Strips from famous comics.
+You can choose to display a coloured and a b/w version of the comic (b/w does not always work that well). 
+Additionally you can choose a daily time frame at which the current daily comic (supported for dilbert, xkcd) is being shown. For the rest of the day a random comic is picked.
+
+Currently integrated:
+  * Dilbert (english and german)
+  * xkcd
+  * peanuts
+  * garfield
+  * nichtlustig (german only)
+  * ruthe (german only)
 
 <img src="dilbert.png"></img>
 
