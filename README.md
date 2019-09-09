@@ -1,4 +1,4 @@
-# MMM-ComicStrips
+# MMM-Comics
 Based on andrecarluccis MMM-DailyDilbert module, this is a module for MagicMirror<sup>2</sup> that displays daily or random Comic Strips from famous comics.
 You can choose to display a coloured and a b/w version of the comic (b/w does not always work that well). 
 Additionally you can choose a daily time frame at which the current daily comic (supported for dilbert, xkcd) is being shown. For the rest of the day a random comic is picked.
@@ -25,7 +25,7 @@ Currently integrated:
  **Example:**
 ```
   {
-    module: 'MMM-ComicStrips',
+    module: 'MMM-Comics',
     position: 'bottom_bar',
     config: {
       comic: "dilbert",         // Choose between  ["dilbert", "xkcd", "garfield", "peanuts", "nichtlustig", "ruthe", "dilbert_de"]
@@ -44,7 +44,7 @@ Currently integrated:
 | `updateInterval` | 1800000 | Set to desired update interval (in ms), default is `1800000` (30 minutes). |
 | `comicWidth` | 500 | Set comic maximum width. Be If your comics are too small you can try to set a higher width here. |
 | `coloredImage` | false | Colored or black&white (inverted) image |
-| `timeForDaily` | [7, 9] | Time frame to show the most recent (or daily) comic. This would equate to 7 - 9 in the morning. Currently only 24h time formatting!! For any other time you will get a random comic if possible. (Dilbert_de does not provide radndom comics yet) |
+| `timeForDaily` | [7, 9] | Time frame to show the most recent (or daily) comic. The standard option would equate to 7 - 9 o'clock in the morning. Please use only 24h time formatting!! For any other time you will get a random comic if possible. (Dilbert_de does not provide random comics yet) |
 
 
 
