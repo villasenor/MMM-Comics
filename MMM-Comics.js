@@ -2,41 +2,35 @@ Module.register("MMM-Comics", {
 
     // Default module config.
     defaults: {
-      comic: "dilbert",         // Choose between  ["dilbert", "xkcd", "garfield", "peanuts", "nichtlustig", "ruthe", "dilbert_de"]
-      updateInterval : 1000 * 60 * 1,  // 1 hour
-      random: false,                // choose random comic  (you can limit for the daily comic using the timeForDaily method)
-      coloredImage: false,
-      comicWidth: 500,
-      timeForDaily: [6, 8],      //place start and end hour here, divided by comma, e.g. [6, 8], please use 24h format!
-      debug: false
+        comics: ["dilbert", "xkcd", "nichtlustig", "calvin+hobbes"],	// Choose one or more of ["dilbert", "xkcd", "garfield", "peanuts", "calvin+hobbes" "nichtlustig", "ruthe", "dilbert_de"]
+        updateInterval : 1000 * 60 * 30,		// 30 minutes
+        random: false,				// choose random comic  (you can limit for the daily comic using the timeForDaily method)
+        coloredImage: false,
+        comicWidth: 500,
+        timeForDaily: [6, 8],			//place start and end hour here, divided by comma, e.g. [6, 8], please use 24h format!
+        debug: false
     },
 
     start: function() {
-        Log.info(this.config);
-        Log.info("Starting module: " + this.name);
-
+        var counter = 0;
+        this.log("Starting module: " + this.name);
         this.dailyComic = "";
-        this.getComic();
-
+        this.getComic(this.config.comics[counter]);
         self = this;
-
         setInterval(function() {
-            self.getComic();
+            counter = (counter == self.config.comics.length-1) ? 0 : counter + 1;
+            self.getComic(self.config.comics[counter]);
         }, self.config.updateInterval);
-    },
-
-    // Define required scripts.
-    getScripts: function() {
-        return [];
     },
 
     getStyles: function() {
         return ["MMM-Comics.css"];
     },
 
-    getComic: function() {
+    getComic: function(comic) {
         Log.info("[MMM-Comics] Getting comic.");
         this.sendSocketNotification("GET_COMIC", {
+            comic: comic,
             config: this.config
         });
     },
@@ -44,12 +38,9 @@ Module.register("MMM-Comics", {
     socketNotificationReceived: function(notification, payload) {
         if (notification === "COMIC") {
             this.dailyComic = payload.img;
-            console.log("Comic source: "+this.dailyComic);
+            this.log("Comic source: "+this.dailyComic);
             this.updateDom(1000);
         }
-    },
-
-    notificationReceived: function(notification, payload, sender) {
     },
 
     // Override dom generator.
@@ -60,16 +51,24 @@ Module.register("MMM-Comics", {
         var img = document.createElement("img");
         img.id = "comic-content";
         img.src = this.dailyComic;
+        //this.log("Original width: "+img.naturalWidth+", Original height: "+img.naturalHeight);
         if (this.config.comicWidth) {
-          img.width = this.config.comicWidth;
+            img.width = this.config.comicWidth;
         }
       	if (this.config.coloredImage) {
-      		img.className = 'colored-image';
+      	    img.className = 'colored-image';
       	} else {
-      		img.className = 'bw-image';
+            img.className = 'bw-image';
       	};
-	      comicWrapper.appendChild(img);
+        comicWrapper.appendChild(img);
         wrapper.appendChild(comicWrapper);
         return wrapper;
-    }
+    },
+
+    log: function (msg) {
+        if (this.config && this.config.debug) {
+            console.log(this.name + ":", JSON.stringify(msg));
+        }
+    },
+
 });
