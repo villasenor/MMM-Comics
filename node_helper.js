@@ -46,9 +46,9 @@ module.exports = NodeHelper.create({
         case "calvin+hobbes":
           this.getCalvinandHobbes(random);
           break;
-        case "nichtlustig":
-          //this.getNichtLustig(random);
-          break;
+        /*case "nichtlustig":
+          this.getNichtLustig(random);
+          break;*/
         case "ruthe":
           this.getRuthe(random);
           break;
@@ -145,7 +145,7 @@ module.exports = NodeHelper.create({
   getRuthe: function (random) {
     var self = this;
     var url = "http://ruthe.de/cartoon/";
-    this.log("-> Ruthe request");
+    this.log("Ruthe request");
     if (random) {
       var randomNr = Math.floor((Math.random() * 3233) + 1);
       url += randomNr;
@@ -164,6 +164,26 @@ module.exports = NodeHelper.create({
     return;
   },
 
+  /*getNichtLustig: function (random) {
+    var self = this;
+    var url = "http://static.nichtlustig.de/toondb";
+    this.log("Nichtlustig request");
+    var min = 501;
+    var max = 150422;
+    var randomNr = Math.floor((Math.random() * 149922) + 501);
+    url += randomNr.padStart(6, '0') + ".html";
+    this.log("Nichtlustig Comic URL: "+url);
+    request(url, function (error, response, body) {
+      var $ = cheerio.load(body);
+      var src = $("").attr('');
+      self.log("Nichtlustig comic -> " + src);
+      self.sendSocketNotification("COMIC", {
+        img : ""
+      });
+    });
+    return;
+  },*/
+
   getXkcd: function (random) {
     var self = this;
     var baseUrl = "http://xkcd.com/";
@@ -171,7 +191,6 @@ module.exports = NodeHelper.create({
       if (!error && response.statusCode == 200) {
         var comic = JSON.parse(body);
         var current = comic.num;
-        self.log ("Current: "+current);
 
         var date = new Date();
         var dayOfWeek = date.getDay();
@@ -181,9 +200,8 @@ module.exports = NodeHelper.create({
           url = url + current;
           self.log("Its Monwedfriday! Showing current xkcd comic!");
         } else {
-          self.log("Parsing random comic");
+          self.log("It's not Monwedfriday! Parsing random comic");
           var randomNumber = Math.floor((Math.random() * current) + 1);
-          // use "randomNumber = 1732;" to test with long comic
           url = "http://xkcd.com/" + randomNumber;
         }
         self.log(url);
