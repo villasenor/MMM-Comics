@@ -1,7 +1,7 @@
 # MMM-Comics
 Based on andrecarluccis MMM-DailyDilbert module, this is a module for MagicMirror<sup>2</sup> that displays daily or random comic strips from famous cartoons.
 You can choose to display a coloured and a b/w version of the comic strip (b/w does not always work that well, try it out). 
-Additionally you can choose a daily time frame at which the current daily comic (supported for dilbert, dilbert_de and xkcd) is being shown. For the rest of the day, or if the comic is archived, a random comic is picked.
+Additionally you can choose a daily time frame at which the current daily comic is being shown. For the rest of the day, or if the comic is archived, a random comic is picked.
 
 <img src="dilbert.png"></img>
 
@@ -58,14 +58,15 @@ Further ideas for integration are much appreciated!
 | **comic** | **current daily** | **random (archived)** |
 | --- | --- | --- |
 | dilbert | x | x |
-| xkcd | * | x |
-| peanuts | - | x |
-| garfield | - | x |
-| calvin+hobbes | - | x |
+| xkcd | '* | x |
+| peanuts | ** | x |
+| garfield | x | x |
+| calvin+hobbes | ** | x |
 | dilbert_de | x | - |
 | ruthe | - | x |
 
-[//]: * xkcd only provides a new comic on Mondays, Wednesday and Fridays.
+ '* xkcd only provides a new comic on Mondays, Wednesday and Fridays.
+ '** these have a "daily" function but this is only an archived comic.
 
 
 This module is based on andrecarluccis [MMM-DailyDilbert](https://github.com/andrecarlucci/MMM-DailyDilbert), which was inspired by [DailyXKCD](https://github.com/Blastitt/DailyXKCD).

@@ -5,11 +5,10 @@ Module.register("MMM-Comics", {
         comics: ["dilbert", "xkcd", "garfield", "peanuts", "calvin+hobbes"],
         // Choose one or more of ["dilbert", "xkcd", "garfield", "peanuts", "calvin+hobbes", "ruthe", "dilbert_de"]
         updateInterval : 1000 * 60 * 10,	// 10 minutes
-        random: false,				// choose random comic  (you can limit for the daily comic using the timeForDaily method)
         coloredImage: false,
         maxWidth: 500,
         maxHeight: 500,
-        timeForDaily: [6, 9],			//place start and end hour here, divided by comma, e.g. [6, 8], please use 24h format! Ignored if random: false.
+        timeForDaily: [6, 9],			//place start and end hour here, divided by comma, e.g. [6, 9], please use 24h format!
         debug: false
     },
 

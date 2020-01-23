@@ -19,11 +19,18 @@ module.exports = NodeHelper.create({
     if (notification === "GET_COMIC") {
       this.config = payload.config;
       var comic = payload.comic.toLowerCase();
-      var random = payload.config.random;
       var dailyTime = payload.config.timeForDaily;
-      var dailyStart = moment(dailyTime[0], "k").format();
-      var dailyEnd = moment(dailyTime[1], "k").format();
-      if (moment().isBetween(dailyStart, dailyEnd)) { random = false; }
+      var dailyStart = moment(dailyTime[0], "k");
+      var dailyEnd = moment(dailyTime[1], "k");
+      this.log("Daily time frame: " + dailyStart.format("HH:mm") + " - " + dailyEnd.format("HH:mm"));
+      var random;
+      if (moment().isBetween(dailyStart,dailyEnd)) {
+        this.log("Time for the daily comic!");
+        random = false
+      } else {
+        this.log("Time for a random comic!")
+        random = true
+      }
 
       this.log("Notification: " + notification + " Payload: " + comic);
 
@@ -123,12 +130,14 @@ module.exports = NodeHelper.create({
     var self = this;
     var url = (lang == "en") ? "https://dilbert.com/" : "https://www.ingenieur.de/unterhaltung/dilbert/" ;
     this.log("-> Dilbert request");
-    if (random && (lang == "en")) {
+    if (random && lang == "en") {
       var start = new Date (2000, 1, 1);
       var end = new Date();
       var randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
       this.log("Random Date: "+randomDate);
       url += moment(randomDate).format("YYYY-MM-DD") + "/";
+    } else {
+      url += moment().format("YYYY-MM-DD") + "/";
     }
     request(url, function (error, response, body) {
       var $ = cheerio.load(body);
