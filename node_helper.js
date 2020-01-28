@@ -47,6 +47,9 @@ module.exports = NodeHelper.create({
         case "xkcd":
           this.getXkcd(random);
           break;
+        case "licd":
+          this.getLICD(random);
+          break;
         case "peanuts":
           this.getPeanuts(random);
           break;
@@ -105,6 +108,31 @@ module.exports = NodeHelper.create({
     return;
   },
 
+  getLICD: function (random) {
+    var self = this;
+    var url = "https://www.leasticoulddo.com/comic/";
+    this.log("-> LICD request");
+    var start = new Date (2003, 2, 10);
+    var end = new Date();
+    var comicDate = (random) ? new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())) : end;
+    url += moment(comicDate).format("YYYYMMDD") + "/";
+    this.log("Trying url: "+url);
+    request(url, function (error, response, body) {
+      if (error) {
+        self.log("Error fetching comic. Trying again... Message: " + error);
+        self.getLICD(random);
+      } else {
+        var $ = cheerio.load(body);
+        var src = $(".comic-wrap .comic").attr('src');
+        self.log("LICD comic source -> " + src);
+        self.sendSocketNotification("COMIC", {
+          img : src
+        });
+      }
+    });
+    return;
+  },
+  
   getCalvinandHobbes: function (random) {
     var self = this;
     var url = "https://www.gocomics.com/calvinandhobbes/";
