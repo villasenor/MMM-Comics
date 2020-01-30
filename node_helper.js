@@ -50,6 +50,9 @@ module.exports = NodeHelper.create({
         case "licd":
           this.getLICD(random);
           break;
+        case "wumo":
+          this.getWumo(random);
+          break;
         case "peanuts":
           this.getPeanuts(random);
           break;
@@ -128,6 +131,37 @@ module.exports = NodeHelper.create({
         self.sendSocketNotification("COMIC", {
           img : src
         });
+      }
+    });
+    return;
+  },
+  
+  getWumo: function (random) {
+    var self = this;
+    var url = "https://www.wumo.com/wumo/";
+    this.log("-> LICD request");
+    var start = new Date (2012, 12, 06);
+    var end = new Date();
+    var comicDate = (random) ? new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())) : end;
+    url += moment(comicDate).format("YYYY/MM/DD") + "/";
+    this.log("Trying url: "+url);
+    request(url, function (error, response, body) {
+      if (error) {
+        self.log("Error fetching comic. Trying again... Message: " + error);
+        self.getWumo(random);
+      } else {
+        var $ = cheerio.load(body);
+        var src = "http://www.wumo.com/" + $("#main .box-content img").attr('src');
+        if (!src) {
+          self.log("Error fetching comic. Trying again... Message: " + error);
+          self.getWumo(random);
+        } else {
+          src = "http://www.wumo.com/" + src;
+          self.log("wumo comic source -> " + src);
+          self.sendSocketNotification("COMIC", {
+            img : src
+          });
+        }
       }
     });
     return;
