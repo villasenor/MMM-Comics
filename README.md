@@ -3,7 +3,7 @@ Based on andrecarluccis MMM-DailyDilbert module, this is a module for MagicMirro
 You can choose to display a coloured and a b/w version of the comic strip (b/w does not always work that well, try it out). 
 Additionally you can choose a daily time frame at which the current daily comic is being shown. For the rest of the day, or if the comic is archived, a random comic is picked.
 
-<img src="dilbert.png"></img>
+![sample image](dilbert.png)
 
 Currently integrated:
   * Dilbert (english and german)
@@ -49,7 +49,7 @@ Further ideas for integration are much appreciated!
 | `coloredImage` | false | Colored or black&white (inverted) image |
 | `timeForDaily` | [6, 9] | Time frame to show the most recent (or daily) comic. The standard option would equate to 7 - 9 o'clock in the morning. Please use only 24h time formatting!! For any other time you will get a random comic if possible. (Dilbert_de does not provide random comics yet) |
 | `maxWidth` | 500 | Maximum width of the comics |
-| `maxWidth` | 500 | Maximum height of the comics |
+| `maxHeight` | 500 | Maximum height of the comics |
 | `debug` | false | Show debug messages |
 
 
